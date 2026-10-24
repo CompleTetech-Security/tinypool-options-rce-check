@@ -28,16 +28,28 @@
   ],
   "verification": "verified_with_boundary_discrepancy",
   "category": "Packages",
-  "status": "new",
-  "implementation_status": "planned",
-  "verified_at": "2026-10-23",
-  "repository_url": "https://github.com/CompleteTech-LLC/tinypool-options-rce-check",
+  "status": "implemented",
+  "implementation_status": "implemented",
+  "verified_at": "2026-10-24",
+  "repository_url": "https://github.com/completetech-security/tinypool-options-rce-check",
   "schema_version": "1.0",
-  "record_type": "research_only",
-  "detection_enabled": false,
-  "implementation_complete": false,
+  "record_type": "implemented_rule",
+  "detection_enabled": true,
+  "implementation_complete": true,
   "assessment_performed": false,
   "exploitability": "not_tested",
   "scope_policy": "One distinct exploit per repository; aliases and affected products share this scope.",
-  "research_notice": "Source research for a planned checker; not an executable rule or assessment result."
+  "research_notice": "Original research foundation preserved in research_origin and Git history. Offline evidence implementation locally reviewed and tested; exact-head hosted CI is a separate release gate. No deployed-target assessment is claimed.",
+  "research_origin": {
+    "record_type": "research_only",
+    "implementation_status": "planned",
+    "verified_at": "2026-10-23",
+    "detection_enabled": false,
+    "implementation_complete": false,
+    "research_notice": "Source research for a planned checker; not an executable rule or assessment result.",
+    "sources": [
+      "https://github.com/tinylibs/tinypool/security/advisories/GHSA-85c8-ppgw-ccpr",
+      "https://github.com/advisories/GHSA-85c8-ppgw-ccpr"
+    ]
+  }
 }
