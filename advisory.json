@@ -1,0 +1,43 @@
+{
+  "id": "CVE-2026-104849",
+  "aliases": [
+    "GHSA-85c8-ppgw-ccpr"
+  ],
+  "slug": "tinypool-options-rce-check",
+  "title": "Tinypool worker-options prototype-pollution gadget",
+  "packages": [
+    "tinypool"
+  ],
+  "affected": "<=2.1.0 (maintainer); <2.1.2 (GitHub Reviewed)",
+  "confirmed_affected": "<=2.1.0",
+  "conflicting_version": "2.1.1",
+  "fixed": "2.1.2",
+  "published": "2026-08-30",
+  "preconditions": [
+    "caller supplies pool.run options object",
+    "options lacks an own filename property",
+    "separate prototype-pollution primitive",
+    "attacker-controlled worker module available"
+  ],
+  "notes": [
+    "pool.run(task) alone is not the documented trigger. Surface 2.1.1 source conflict and do not report clean. Maintainer severity High differs from database Critical; retain provenance."
+  ],
+  "sources": [
+    "https://github.com/tinylibs/tinypool/security/advisories/GHSA-85c8-ppgw-ccpr",
+    "https://github.com/advisories/GHSA-85c8-ppgw-ccpr"
+  ],
+  "verification": "verified_with_boundary_discrepancy",
+  "category": "Packages",
+  "status": "new",
+  "implementation_status": "planned",
+  "verified_at": "2026-10-23",
+  "repository_url": "https://github.com/CompleteTech-LLC/tinypool-options-rce-check",
+  "schema_version": "1.0",
+  "record_type": "research_only",
+  "detection_enabled": false,
+  "implementation_complete": false,
+  "assessment_performed": false,
+  "exploitability": "not_tested",
+  "scope_policy": "One distinct exploit per repository; aliases and affected products share this scope.",
+  "research_notice": "Source research for a planned checker; not an executable rule or assessment result."
+}
