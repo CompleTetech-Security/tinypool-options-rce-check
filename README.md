@@ -1,140 +1,55 @@
-<p align="center">
-  <img src="docs/images/banner.png" alt="tinypool-options-rce-check by CompleteTech LLC" width="100%">
-</p>
+# tinypool-options-rce-check
 
-<p align="center">
-  <img src="https://img.shields.io/badge/status-checker%20planned-F59E0B" alt="Status: checker planned">
-  <img src="https://img.shields.io/badge/detection-disabled-64748B" alt="Detection disabled">
-  <a href="LICENSING.md"><img src="https://img.shields.io/badge/license-AGPL--3.0%20%7C%20commercial-64748B" alt="AGPL-3.0 or commercial license"></a>
-</p>
+Offline evidence checker for **CVE-2026-104849 — Tinypool worker-options prototype-pollution gadget**. Python 3.10+, standard library only. The executable can be copied alone. It never contacts websites, imports application code, runs a package manager, or executes exploit payloads.
 
-<p align="center">
-  <b>Tinypool worker-options prototype-pollution gadget</b><br>
-  CVE-2026-104849 · GHSA-85c8-ppgw-ccpr · research only, no checker yet
-</p>
+```sh
+python tinypool_options_rce_check.py --version 2.1.2 --format json
+python tinypool_options_rce_check.py --inventory examples/inventory.example.json --format html --output report.html
+python tinypool_options_rce_check.py --csv-list inventory.csv --fail-on-finding
+python tinypool_options_rce_check.py --help
+python -m unittest -v
+```
 
----
+## Reviewed rules
 
-> **Repository initialized; checker implementation pending.**
-> This project currently contains research and an implementation checklist.
-> It does not assess systems or provide an executable detection rule.
+Primary advisory and reviewed database retrieved 2026-10-24. A public URL cannot provide installed package inventory. Obtain each deployed package instance's exact version and provenance; declarations and local workstation versions are not deployment evidence.
 
-`tinypool-options-rce-check` is the planned home of a checker for **CVE-2026-104849**, a Tinypool worker-options prototype-pollution gadget. Today it holds source-backed research and a work plan only. It sends no requests, runs no exploit payloads, and reports no results. When built, it is meant to report uncertainty honestly: missing, conflicting, or vendor-qualified evidence stays `unknown`, never "safe".
-
-By [CompleteTech LLC](https://complete.tech).
-
-## Status and what is planned
-
-There are no checker commands, installation steps, downloadable binaries, test results, or CI claims, so there is no Quick start yet. To follow or contribute to the work:
-
-1. Review [advisory.json](advisory.json) and the [primary sources](#primary-sources).
-2. Work through the exploit-specific [implementation checklist](docs/IMPLEMENTATION.md).
-3. Read [AGENTS.md](AGENTS.md), [CONTRIBUTING.md](CONTRIBUTING.md), and [SECURITY.md](SECURITY.md) before contributing.
-
-## Planned report layout
-
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/images/report-dark.png">
-    <img src="docs/images/report-light.png" alt="Illustrative placeholder layout of a planned report; no checker is implemented yet" width="900">
-  </picture>
-</p>
-
-<p align="center"><sub><b>Illustrative only.</b> A layout sketch with placeholder values on reserved <code>example.*</code> domains. No checker, report format, or result exists yet.</sub></p>
-
-## What the results will mean (planned)
-
-The status vocabulary below is planned and taken from this repository's [implementation checklist](docs/IMPLEMENTATION.md). It is not implemented.
-
-| Status (planned) | Intended meaning |
+| Example reported version | Result |
 | --- | --- |
-| `potentially_affected` | Evidence matches this advisory's documented range or condition. Not confirmed exploitability. |
-| `fixed_version_reported` | A supported comparison shows a reported fixed version. Not a guarantee or verified deployed patch. |
-| `unknown` | Missing, malformed, conflicting, prerelease, vendor/custom-build, possible-backport, or uncovered-future evidence. |
+| 2.0.9 | `potentially_affected` |
+| 2.1.0 | `potentially_affected` |
+| 2.1.1 | `unknown` |
+| 2.1.2 | `fixed_version_reported` |
+| 2.1.3 | `fixed_version_reported` |
+| 2.2.0 | `unknown` |
+| 3.0.0 | `unknown` |
 
-Exploitability remains `not_tested` for every future finding.
+pool.run(task) alone is not the documented trigger. Surface 2.1.1 source conflict and do not report clean. Maintainer severity High differs from database Critical; retain provenance.
 
-| Reported in the advisory data (research only) | Value |
+The reviewed fixed line is `2.1.x`; future lines remain unknown rather than extrapolating a patch claim. Versions outside the exact affected interval remain unknown, including older releases that might have other flaws. Missing, conflicting, malformed, prerelease, qualified, custom/vendor builds remain unknown. `fixed_version_reported` only describes a version claim; it never attests installed patches or safety. `potentially_affected` is not confirmed exploitability. Every row retains `exploitability: not_tested`.
+
+## Preconditions
+
+| Optional operator observation | Meaning |
 | --- | --- |
-| Affected | `<=2.1.0` (maintainer); `<2.1.2` (GitHub Reviewed) |
-| Confirmed affected | `<=2.1.0` |
-| Conflicting source evidence | `2.1.1` (must not be reported clean) |
-| Fixed in | `2.1.2` |
+| `caller_supplies_pool_run_options_object` | caller supplies pool.run options object |
+| `options_lacks_an_own_filename_property` | options lacks an own filename property |
+| `separate_prototype_pollution_primitive` | separate prototype-pollution primitive |
+| `attacker_controlled_worker_module_available` | attacker-controlled worker module available |
 
-These values are research-only and come from [advisory.json](advisory.json); they are not an enabled rule.
+Each observation is boolean or null, is unverified, and never changes the package-version result. No source search, taint analysis, reachability test, or runtime evaluation is performed. Absent observations do not establish mitigation.
 
-> [!IMPORTANT]
-> **Nothing here is a test result.** The repository is research only and detection is disabled. `pool.run(task)` alone is not the documented trigger, so a version match would never prove exposure or exploitability. A reported fixed version is not a guarantee of safety, and the `2.1.1` source conflict must stay `unknown`.
+## Evidence and reports
 
-## One exploit, one repository
+JSON accepts one object or an array of objects. Required: integer `schema_version: 1`, string `package_version`. Optional: `package: "tinypool"`, `label`, `build_source`, and the observation keys above. Unknown or duplicate keys, wrong types, non-finite numbers and malformed inputs are rejected. CSV requires `package_version`; optional columns are label, build_source, and observation keys (`true`, `false`, blank). CLI `--version` is repeatable; values are separate instances, not evidence reconciliation for a single instance. `--build-source` and observation flags (underscore becomes hyphen) apply to CLI versions.
 
-| Field | Scope |
-| --- | --- |
-| Exploit identifier | `CVE-2026-104849` |
-| Aliases for this same exploit | `GHSA-85c8-ppgw-ccpr` |
-| Research verification date | 2026-10-23 |
-| Implementation state | `planned` |
-| Detection rule | **Disabled — research only** |
+Only regular UTF-8 input files are accepted. Limits: 4 MiB/file, 100 files, 10,000 entries total, 512 characters/text field. Work from stable copies; checks are not a filesystem sandbox. JSON, formula-neutralized CSV and escaped script-free HTML share assessments. Output files publish atomically and do not overwrite existing files without `--force`; inputs remain protected even with force.
 
-This repository is dedicated to **CVE-2026-104849**. Aliases and multiple affected
-products identify this same exploit; they do not create additional scanner scopes.
-Future fixes for different vulnerabilities belong in independent repositories.
+Exit 0: completed run; 1: potentially affected with `--fail-on-finding`; 2: argument/input/output error; 130: interrupted, preserving completed observations when possible. Interruption during stdout can leave a truncated document and never appends a second report. Unknown does not count as a finding-gate failure or as a clean result. Reports contain operator data; keep real targets, inventories and reports out of commits.
 
-## Advisory snapshot
+## Sources and delivery
 
-The following is source-backed research for implementation planning. It is not a
-test result, a live rule feed, or an attestation that a deployed system is patched.
+- https://github.com/tinylibs/tinypool/security/advisories/GHSA-85c8-ppgw-ccpr
+- https://github.com/advisories/GHSA-85c8-ppgw-ccpr
 
-### Affected versions or conditions
-
-<=2.1.0 (maintainer); <2.1.2 (GitHub Reviewed)
-
-### Reported fixes or remediation
-
-2.1.2
-
-### Deployment preconditions to establish
-
-- caller supplies pool.run options object
-- options lacks an own filename property
-- separate prototype-pollution primitive
-- attacker-controlled worker module available
-
-### Evidence notes and limitations
-
-- pool.run(task) alone is not the documented trigger. Surface 2.1.1 source conflict and do not report clean. Maintainer severity High differs from database Critical; retain provenance.
-
-## How it works (planned)
-
-The intended checker follows the evidence and reporting conventions of
-[node2shell-check](https://github.com/CompleteTech-LLC/node2shell-check) and [php2shell-check](https://github.com/CompleteTech-LLC/php2shell-check):
-
-- Prefer offline version, inventory, or configuration evidence appropriate to this exploit.
-- Keep version state, documented preconditions, evidence provenance, and uncertainty separate.
-- Preserve `exploitability: not_tested`; never run exploit payloads or confirm compromise.
-- Keep missing, malformed, conflicting, vendor-qualified, prerelease, and uncovered versions `unknown`.
-- Produce human-readable findings and machine-readable JSON/CSV; document each output before release.
-- Add bounded, explicitly selected passive network behavior only if it provides useful evidence.
-
-These capabilities are **planned**, not implemented. There are currently no
-checker commands, downloadable binaries, test results, or CI claims.
-
-## Primary sources
-
-1. [Repository advisory](https://github.com/tinylibs/tinypool/security/advisories/GHSA-85c8-ppgw-ccpr)
-2. [GitHub Advisory Database](https://github.com/advisories/GHSA-85c8-ppgw-ccpr)
-
-The research date records the supplied verification snapshot. Recheck primary
-advisories before enabling any detection logic, and retain contradictory evidence.
-
-## Documentation
-
-- [Implementation checklist](docs/IMPLEMENTATION.md): local work plan and verification gates
-- [advisory.json](advisory.json): source-preserving research record (detection disabled)
-- [AGENTS.md](AGENTS.md) · [Contributing](CONTRIBUTING.md) · [Security policy](SECURITY.md)
-
-## License
-
-Dual licensed: [AGPL-3.0](LICENSE), or a separate commercial agreement with CompleteTech LLC. See [LICENSING.md](LICENSING.md) and the [contribution terms](CONTRIBUTING.md#licensing-of-contributions). Names and branding are governed by [BRAND_ASSETS.md](BRAND_ASSETS.md).
-
-Copyright © 2026 CompleteTech LLC.
+[Synthetic report](docs/example-report.html), [reference](docs/REFERENCE.md), [implementation status](docs/IMPLEMENTATION.md), [AGENTS](AGENTS.md), [contribution terms](CONTRIBUTING.md), [security policy](SECURITY.md), [license](LICENSE), [dual licensing](LICENSING.md). Bounded input and reporting helpers are bundled from the reviewed Node.js checker at `74aa57ba5df05c34d17ae67912cd26ec2335201b`, with package-specific range comparison and the mixed-whitespace CSV fix. No companion repository is needed at runtime.
