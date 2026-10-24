@@ -121,8 +121,8 @@ checker commands, downloadable binaries, test results, or CI claims.
 
 ## Primary sources
 
-1. [github.com](https://github.com/tinylibs/tinypool/security/advisories/GHSA-85c8-ppgw-ccpr)
-2. [github.com](https://github.com/advisories/GHSA-85c8-ppgw-ccpr)
+1. [Repository advisory](https://github.com/tinylibs/tinypool/security/advisories/GHSA-85c8-ppgw-ccpr)
+2. [GitHub Advisory Database](https://github.com/advisories/GHSA-85c8-ppgw-ccpr)
 
 The research date records the supplied verification snapshot. Recheck primary
 advisories before enabling any detection logic, and retain contradictory evidence.

@@ -13,3 +13,6 @@ illustrative report layout that uses only placeholder values on reserved
 exists yet. This repository also uses a text attribution linking to
 [complete.tech](https://complete.tech). Any future report branding must respect
 the rights of its owner.
+
+The README banner and the social preview embed the CompleteTech LLC logo. There
+is no standalone logo file in this repository.
