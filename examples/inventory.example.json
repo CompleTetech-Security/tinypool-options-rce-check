@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "package": "tinypool",
+  "package_version": "2.1.2",
+  "label": "example-package-instance",
+  "build_source": "unknown",
+  "caller_supplies_pool_run_options_object": null,
+  "options_lacks_an_own_filename_property": null,
+  "separate_prototype_pollution_primitive": null,
+  "attacker_controlled_worker_module_available": null
+}
