@@ -5,3 +5,5 @@ Implemented offline package-version evidence checker, with independent source/se
 Local verification: 13 tests, CLI help, documented synthetic inputs, checksum validation and whitespace checks. Hosted CI must pass for the exact final PR head before merge; a local pass is not a hosted result. The advisory metadata now describes the implemented rule and preserves its original disabled research state under research_origin.
 
 No live traffic, application execution, exploit verification or deployed-target assessment is claimed. Reported fixed versions do not attest installed patches; unknown evidence remains unknown.
+
+Report provenance regression coverage includes complete, empty, interrupted and copied-standalone exports. Generation time is captured once per CLI run and shared by JSON, CSV and HTML; rules_as_of remains separate.

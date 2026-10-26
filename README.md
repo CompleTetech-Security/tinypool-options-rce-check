@@ -56,6 +56,8 @@ Exit 0: completed run; 1: potentially affected with `--fail-on-finding`; 2: argu
 
 CSV `record_type=result` rows are asset observations. A zero-result report has a `record_type=summary` row carrying completeness, schema, rule date, CVE and `not_tested`; it is not an asset finding.
 
+All formats preserve the same run identity: `tool`, `tool_version`, and ISO 8601 UTC `generated_at`. CSV repeats these fields on every result and empty summary; HTML shows the same time and checker identity. The CLI captures generation time once before assessment and retains it when interrupted. `rules_as_of` remains the advisory verification date; generation time is not evidence acquisition time or deployed-patch attestation.
+
 CSV rejects NUL characters before writing a report. An interruption after a complete report is published preserves that report and exits 130.
 
 If an interrupt leaves file publication indeterminate, the checker exits 130 without retrying. Inspect the output before retrying; the diagnostic does not establish whether publication succeeded.
