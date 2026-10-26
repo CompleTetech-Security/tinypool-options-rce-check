@@ -197,7 +197,7 @@ All formats preserve the same run identity: `tool`, `tool_version`, and ISO 8601
 | --- | --- |
 | `0` | Run completed. |
 | `1` | At least one result is `potentially_affected` and `--fail-on-finding` was given. |
-| `2` | Argument, input or output error; nothing was assessed or the report was not written. |
+| `2` | Usage, input, output or cleanup failure (an operational error, not an assessment result). This does not establish whether report bytes were already written; inspect the output before retrying. |
 | `130` | Interrupted. Completed observations are preserved when possible. |
 
 `unknown` results do not trigger `--fail-on-finding` and are not a clean result.
